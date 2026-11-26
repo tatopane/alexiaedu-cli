@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "alexia-cli"
+name = "alexiaedu-cli"
 version = "0.1.0"
 description = "CLI client for Alexia Familias (Everest School)"
 readme = "README.md"

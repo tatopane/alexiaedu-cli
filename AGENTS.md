@@ -1,12 +1,12 @@
-# 🤖 AGENTS.md - Developer & AI Agent Guidelines for `alexia-cli`
+# 🤖 AGENTS.md - Developer & AI Agent Guidelines for `alexiaedu-cli`
 
-This document provides context, architectural design, technical quirks, and development guidelines for AI agents (and human contributors) working on **`alexia-cli`**.
+This document provides context, architectural design, technical quirks, and development guidelines for AI agents (and human contributors) working on **`alexiaedu-cli`**.
 
 ---
 
 ## 🎯 1. Project Purpose & High-Level Architecture
 
-`alexia-cli` is a lightweight, headless command-line client and Python library for **Alexia Familias** (`web2.alexiaedu.com`), with native pre-configuration for **Everest School**.
+`alexiaedu-cli` is a lightweight, headless command-line client and Python library for **Alexia Familias** (`web2.alexiaedu.com`), with native pre-configuration for **Everest School**.
 
 ### Core Philosophy
 * **Zero Headless Browsers:** No Playwright, Puppeteer, or Selenium. All operations use direct HTTP requests against Alexia's native ASP.NET ASMX WebServices (`application/json; charset=utf-8`) and ASHX handlers.
@@ -18,7 +18,7 @@ This document provides context, architectural design, technical quirks, and deve
 ## 📁 2. Codebase Structure
 
 ```plaintext
-alexia-cli/
+alexiaedu-cli/
 ├── alexia/
 │   ├── __init__.py
 │   ├── config.py           # Environment loading (.env), default keys, URL helpers

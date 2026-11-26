@@ -1,6 +1,6 @@
 # 📡 Especificación Técnica de Endpoints de Alexia Familias
 
-Documentación técnica detallada de la API inversa de **Alexia Familias** (`web2.alexiaedu.com`) obtenida durante el desarrollo de `alexia-cli`, con foco en la implementación de **Everest School**.
+Documentación técnica detallada de la API inversa de **Alexia Familias** (`web2.alexiaedu.com`) obtenida durante el desarrollo de `alexiaedu-cli`, con foco en la implementación de **Everest School**.
 
 ---
 

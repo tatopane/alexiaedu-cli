@@ -1,4 +1,4 @@
-# 🎓 Alexia CLI (`alexia`)
+# 🎓 AlexiaEdu CLI (`alexiaedu-cli` / `alexia`)
 
 Cliente de línea de comandos (CLI) rápido, ligero y modular para **Alexia Familias** (`web2.alexiaedu.com`), optimizado específicamente para **Everest School**.
 
@@ -20,7 +20,7 @@ Permite autenticarse mediante los servicios web nativos de Alexia (sin navegador
 ## 📁 Estructura del Proyecto
 
 ```plaintext
-alexia-cli/
+alexiaedu-cli/
 ├── alexia/
 │   ├── __init__.py
 │   ├── config.py           # Gestión de variables de entorno (.env) y constantes
@@ -50,7 +50,7 @@ alexia-cli/
 ### 1. Clonar e instalar en entorno virtual
 
 ```bash
-cd alexia-cli
+cd alexiaedu-cli
 
 # Crear entorno virtual con uv
 uv venv
@@ -200,4 +200,4 @@ pytest -v
 
 ## 📄 Licencia
 
-MIT. Consulta el archivo [LICENSE](file:///Users/tatopane/alexia-cli/LICENSE) para más detalles.
+MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.

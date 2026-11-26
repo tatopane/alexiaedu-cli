@@ -1,9 +1,9 @@
 ---
-name: alexia-cli
+name: alexiaedu-cli
 description: CLI client and automation tool for Alexia Familias (Everest School). Use when needing to authenticate, check session status, list school announcements/circulars, download circular attachments, or inspect enrolled students.
 ---
 
-# Alexia CLI (`alexia`) Skill
+# AlexiaEdu CLI (`alexia`) Skill
 
 This skill guides AI agents on how to interact with the **`alexia`** CLI client to manage school communications, circulars, and student information from **Alexia Familias** (`web2.alexiaedu.com`) for **Everest School**.
 
