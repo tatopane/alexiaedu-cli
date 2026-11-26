@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 from pathlib import Path
 from typing import Optional
@@ -249,6 +250,96 @@ def notif_get(
             panel_text += f" • {att.filename}\n"
 
     console.print(Panel(panel_text, title=f"Comunicado #{detail.id}", expand=False))
+
+
+@notif_app.command("mark-read")
+def notif_mark_read(
+    notif_id: str = typer.Argument(..., help="ID del comunicado a marcar como leído"),
+):
+    """Marca un comunicado específico como leído."""
+    service = NotificationService()
+    with console.status(f"[bold blue]Marcando comunicado {notif_id} como leído..."):
+        try:
+            ok = service.mark_as_read(notif_id)
+        except Exception as e:
+            err_console.print(f"[bold red]Error:[/bold red] {e}")
+            raise typer.Exit(code=1)
+
+    if ok:
+        console.print(f"[bold green]✔ Comunicado {notif_id} marcado como leído.[/bold green]")
+    else:
+        err_console.print(f"[bold red]Error al marcar como leído el comunicado {notif_id}[/bold red]")
+        raise typer.Exit(code=1)
+
+
+@notif_app.command("mark-all-read")
+def notif_mark_all_read(
+    older_than_hours: int = typer.Option(
+        24,
+        "--older-than-hours",
+        "-h",
+        help="Antigüedad mínima en horas para marcar como leído (por defecto 24 horas)",
+    ),
+    limit: int = typer.Option(100, "--limit", "-l", help="Máximo de comunicados a evaluar"),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Solo listar los que se marcarían sin modificarlos"),
+):
+    """Marca como leídos los comunicados no leídos con una antigüedad superior a las horas indicadas."""
+    service = NotificationService()
+    with console.status("[bold blue]Consultando comunicados no leídos..."):
+        try:
+            items = service.list_notifications(unread_only=True, limit=limit)
+        except Exception as e:
+            err_console.print(f"[bold red]Error:[/bold red] {e}")
+            raise typer.Exit(code=1)
+
+    now = datetime.now()
+    to_mark = []
+    skipped = []
+
+    for it in items:
+        is_older = False
+        if it.date:
+            try:
+                # Format: DD/MM/YYYY
+                dt = datetime.strptime(it.date, "%d/%m/%Y")
+                # Add 23h59m if notice was published on that date, or compare days
+                diff_hours = (now - dt).total_seconds() / 3600.0
+                if diff_hours >= older_than_hours:
+                    is_older = True
+            except Exception:
+                pass
+
+        if is_older:
+            to_mark.append(it)
+        else:
+            skipped.append(it)
+
+    if not to_mark:
+        console.print(f"[yellow]No hay comunicados no leídos con más de {older_than_hours}h de antigüedad.[/yellow]")
+        if skipped:
+            console.print(f"[dim]Se omitieron {len(skipped)} comunicados recientes (menos de {older_than_hours}h).[/dim]")
+        return
+
+    console.print(f"Se encontraron [bold cyan]{len(to_mark)}[/bold cyan] comunicados con más de {older_than_hours}h de antigüedad.")
+
+    if dry_run:
+        console.print("[yellow]Modo --dry-run activo. No se realizarán cambios en el servidor.[/yellow]")
+        for it in to_mark:
+            console.print(f" - [dim]{it.date}[/dim] {it.title} ([dim]{it.id}[/dim])")
+        return
+
+    marked_count = 0
+    with console.status("[bold blue]Marcando comunicados en el servidor..."):
+        for it in to_mark:
+            try:
+                if service.mark_as_read(it.id):
+                    marked_count += 1
+            except Exception as e:
+                err_console.print(f"[red]Error marcando {it.id}:[/red] {e}")
+
+    console.print(f"[bold green]✔ Se han marcado como leídos {marked_count} de {len(to_mark)} comunicados.[/bold green]")
+    if skipped:
+        console.print(f"[dim]Permanecen sin leer {len(skipped)} comunicados recientes (< {older_than_hours}h).[/dim]")
 
 
 # ==============================================================================

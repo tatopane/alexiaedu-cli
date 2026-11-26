@@ -224,6 +224,34 @@ Alexia no expone una API REST tradicional, sino WebServices ASP.NET (`.asmx`) qu
 
 ---
 
+### 3.5 Marcar Comunicado como Leído (`MarcarComunicadoLeidoBadge`)
+* **Método:** `POST`
+* **Endpoint:** `/ACWeb/WS_Data/WSHome.asmx/MarcarComunicadoLeidoBadge`
+* **Headers:**
+  ```http
+  Content-Type: application/json; charset=utf-8
+  Referer: https://web2.alexiaedu.com/ACWeb/paginas/Home/HomeMetro.aspx
+  X-Requested-With: XMLHttpRequest
+  ```
+* **Payload:**
+  ```json
+  {
+    "guidComunicado": "00000000-0000-0000-0000-000000000001"
+  }
+  ```
+* **Respuesta:**
+  ```json
+  {
+    "d": {
+      "__type": "CospaAgilmic.NS.Negocio.DTO.WebParts.BotoneraWPDTO",
+      "Codigo": "comunicados",
+      "Contador": 4
+    }
+  }
+  ```
+
+---
+
 ## 👨‍👩‍👧‍👦 4. Alumnos e Información Académica
 
 ### 4.1 Identificación de Alumnos / Hijos (`HomeMetro.aspx`)

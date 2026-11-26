@@ -327,3 +327,18 @@ class NotificationService:
                     pass
 
         return detail
+
+    def mark_as_read(self, notif_id: str) -> bool:
+        """
+        Marks an announcement/notification as read in Alexia using WSHome.asmx/MarcarComunicadoLeidoBadge.
+        """
+        self._ensure_authenticated()
+        url = f"{self.client.base_url}/ACWeb/WS_Data/WSHome.asmx/MarcarComunicadoLeidoBadge"
+        headers = {
+            "Content-Type": "application/json; charset=utf-8",
+            "Referer": f"{self.client.base_url}/ACWeb/paginas/Home/HomeMetro.aspx",
+            "X-Requested-With": "XMLHttpRequest",
+        }
+        resp = self.client.post(url, json={"guidComunicado": notif_id}, headers=headers, timeout=8)
+        return resp.status_code == 200
+

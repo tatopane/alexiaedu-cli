@@ -136,6 +136,15 @@ alexia notif get <COMUNICADO_ID> --download-attachments -o ./downloads/
 ```
 * Downloads all attached PDFs directly into `./downloads/` using their original filenames.
 
+#### Mark Announcement as Read
+```bash
+# Mark a single announcement by ID:
+alexia notif mark-read <COMUNICADO_ID>
+
+# Mark all unread announcements older than N hours (default 24h):
+alexia notif mark-all-read --older-than-hours 24
+```
+
 ---
 
 ### 4. Public Circular Downloads (`alexia download`)

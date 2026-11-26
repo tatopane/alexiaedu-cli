@@ -76,7 +76,7 @@ def test_get_notification_detail_ws_comunicados():
                 "Mensaje_1": "<p>Estimadas familias, adjuntamos archivo.</p>",
                 "FechaPublicacion": "2026-11-26",
                 "HoraPublicacion": "16:00",
-                "NombreEmisor": "Everest School",
+                "NombreEmisor": "Colegio de Prueba",
                 "AdjuntosExistentes": [
                     {
                         "Id": "archivo1.pdf",
@@ -95,7 +95,31 @@ def test_get_notification_detail_ws_comunicados():
     assert detail.id == guid
     assert detail.title == "Circular Importante"
     assert "Estimadas familias" in detail.body
-    assert detail.sender == "Everest School"
+    assert detail.sender == "Colegio de Prueba"
     assert len(detail.attachments) == 1
     assert detail.attachments[0].filename == "CircularNavidad.pdf"
     assert "tipo=6&nombre=archivo1.pdf" in detail.attachments[0].url
+
+
+@responses.activate
+def test_mark_as_read_success():
+    session_obj = AuthSession(
+        user="test_user",
+        token="token_uuid",
+        rol="1001",
+        cookies={".ASPXAUTH": "dummyauth"},
+    )
+    client = AlexiaClient(session_obj=session_obj, auto_load=False)
+
+    guid = "00000000-0000-0000-0000-000000000001"
+    badge_url = "https://web2.alexiaedu.com/ACWeb/WS_Data/WSHome.asmx/MarcarComunicadoLeidoBadge"
+    responses.add(
+        responses.POST,
+        badge_url,
+        json={"d": {"Codigo": "comunicados", "Contador": 5}},
+        status=200,
+    )
+
+    service = NotificationService(client=client)
+    ok = service.mark_as_read(guid)
+    assert ok is True

@@ -167,6 +167,18 @@ alexia notif get 1042
 alexia notif get 1042 --download-attachments -o ./adjuntos
 ```
 
+#### Marcar comunicados como leídos
+```bash
+# Marcar un comunicado específico por su ID
+alexia notif mark-read <ID_COMUNICADO>
+
+# Marcar todos los comunicados no leídos con más de 24 horas de antigüedad
+alexia notif mark-all-read --older-than-hours 24
+
+# Simular sin aplicar cambios en el servidor
+alexia notif mark-all-read --dry-run
+```
+
 ---
 
 ### 4. Alumnos e Hijos Registrados (`alexia students` / `alexia alumnos`)
